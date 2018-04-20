@@ -21,11 +21,12 @@ public class MyController {
     MyBean myBean;
 
     @GetMapping(path = "/")
-    public void root(HttpServletResponse resp) throws IOException {
-        resp.sendRedirect("/hello");
+    public ModelAndView root(@RequestParam(value="first", required=true) String first,
+                             @RequestParam(value="last", required=true) String last) throws IOException {
+        return hello(first, last);
     }
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+    @GetMapping(value = "/hello")
     public ModelAndView hello(@RequestParam(value="first", required=true) String first,
                               @RequestParam(value="last", required=true) String last
     ) {
