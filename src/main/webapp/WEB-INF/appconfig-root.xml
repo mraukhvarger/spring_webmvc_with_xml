@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+    <import resource="appconfig-mvc.xml"/>
+
+    <!-- Scans within the base package of the application for @Component classes to configure as beans -->
+    <context:component-scan base-package="com.raukhvarger.spring_first.controllers"/>
+
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <beans>
+        <util:list id="testList" value-type="java.lang.Integer">
+            <value>1</value>
+            <value>2</value>
+            <value>3</value>
+            <value>4</value>
+        </util:list>
+
+        <util:list id="emptyList" value-type="java.lang.Integer">
+        </util:list>
+
+        <bean id="myBean" class="com.raukhvarger.spring_first.MyBean">
+            <property name="value" value="1000" />
+            <property name="integerList" value="#{${myprops.debug} ? testList : emptyList}" />
+        </bean>
+
+        <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+            <property name="attributes">
+                <map>
+                    <entry key="myBean">
+                        <ref bean="myBean" />
+                    </entry>
+                </map>
+            </property>
+        </bean>
+
+    </beans>
+
+</beans>
