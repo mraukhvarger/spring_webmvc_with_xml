@@ -19,6 +19,8 @@ public class MyDAO {
     }
 
     public List<MyEntity> findAll() {
-        return em.createQuery("SELECT p FROM MyEntity p").getResultList();
+        return em.createQuery(em.getCriteriaBuilder().createQuery(MyEntity.class)).getResultList();
+
+//        return em.createQuery("SELECT p FROM MyEntity p").getResultList();
     }
 }
