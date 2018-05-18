@@ -51,15 +51,15 @@ public class MyController {
                             @RequestParam(value="last", required=true) String last) {
         myDAOService.add(new MyEntity(first, last));
 
-        View view = (model, request, response) -> response.getWriter().write("<h1>OK</h1>");
-        ModelAndView modelAndView = new ModelAndView(view);
+        ModelAndView modelAndView = new ModelAndView(
+                (model, request, response) -> response.getWriter().write("<h1>OK</h1>"));
         return modelAndView;
     }
 
     @GetMapping(value = "list")
     public ModelAndView list() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("entities", myDAOService.listAll());
+        modelAndView.addObject("entities", myDAOService.listAll(MyEntity.class));
         return modelAndView;
     }
 

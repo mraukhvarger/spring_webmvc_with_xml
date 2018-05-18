@@ -1,6 +1,6 @@
 package com.raukhvarger.spring_first;
 
-import com.raukhvarger.spring_first.entities.MyEntity;
+import com.raukhvarger.spring_first.entities.IEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,20 +14,19 @@ public class MyDAOService {
     private MyDAO productDao;
 
     @Transactional
-    public void add(MyEntity myEntity) {
-        productDao.persist(myEntity);
+    public void add(IEntity entity) {
+        productDao.persist(entity);
     }
 
     @Transactional
-    public void addAll(Collection<MyEntity> myEntities) {
-        for (MyEntity myEntity : myEntities) {
-            productDao.persist(myEntity);
+    public void addAll(Collection<? extends IEntity> entities) {
+        for (IEntity entity : entities) {
+            productDao.persist(entity);
         }
     }
 
     @Transactional(readOnly = true)
-    public List<MyEntity> listAll() {
-        return productDao.findAll();
-
+    public List<? extends IEntity> listAll(Class<? extends IEntity> entityClass) {
+        return productDao.findAll(entityClass);
     }
 }
